@@ -1,0 +1,31 @@
+{
+  "_meta": {
+    "lastUpdated": "2026-02-17",
+    "source": "https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/photos.html",
+    "schemaVersion": "1.0.0"
+  },
+  "US": {
+    "print": {
+      "sizeInches": "2x2",
+      "sizeMm": "51x51",
+      "headHeightInches": "1 to 1-3/8",
+      "eyeHeightInches": "1-1/8 to 1-3/8 from bottom"
+    },
+    "digital": {
+      "format": "JPEG",
+      "dimensionsPx": {"min": "600x600", "max": "1200x1200"},
+      "maxFileSizeKb": 240,
+      "colorDepth": "24-bit"
+    },
+    "requirements": {
+      "background": "White or off-white",
+      "recencyMonths": 6,
+      "expression": "Neutral with both eyes open",
+      "glasses": "Not allowed (policy since November 2016)",
+      "headCoverings": "Only for religious or medical reasons with full face visible",
+      "lighting": "No shadows on face or background",
+      "attire": "Normal street attire; no uniforms except religious",
+      "facing": "Directly facing camera, full face in view"
+    }
+  }
+}

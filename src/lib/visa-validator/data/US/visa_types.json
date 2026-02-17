@@ -1,0 +1,417 @@
+{
+  "_meta": {
+    "lastUpdated": "2026-02-17",
+    "source": "travel.state.gov",
+    "schemaVersion": "1.0.0"
+  },
+  "types": {
+    "B1": {
+      "code": "B1", "name": "Business Visitor (B-1)", "category": "tourist_business",
+      "purpose": "Temporary business activities", "baseFee": 185,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/tourism-visit/visitor.html"
+    },
+    "B2": {
+      "code": "B2", "name": "Tourist/Medical (B-2)", "category": "tourist_business",
+      "purpose": "Tourism, medical treatment, pleasure", "baseFee": 185,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/tourism-visit/visitor.html"
+    },
+    "B1B2": {
+      "code": "B1B2", "name": "Visitor Visa (B-1/B-2)", "category": "tourist_business",
+      "purpose": "Tourism, business, medical treatment", "baseFee": 185,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/tourism-visit/visitor.html"
+    },
+    "F1": {
+      "code": "F1", "name": "Academic Student (F-1)", "category": "student",
+      "purpose": "Full-time academic studies at accredited institution", "baseFee": 185,
+      "sevisFee": 350, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": ["I-20"], "dependentVisa": "F2",
+      "entryRestriction": "Cannot enter more than 30 days before program start", "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/study/student-visa.html"
+    },
+    "F2": {
+      "code": "F2", "name": "F-1 Dependent (F-2)", "category": "student",
+      "purpose": "Spouse or child of F-1 student", "baseFee": 185,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": ["I-20"], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/study/student-visa.html"
+    },
+    "M1": {
+      "code": "M1", "name": "Vocational Student (M-1)", "category": "student",
+      "purpose": "Vocational or nonacademic studies", "baseFee": 185,
+      "sevisFee": 350, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": ["I-20"], "dependentVisa": "M2",
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/study/student-visa.html"
+    },
+    "M2": {
+      "code": "M2", "name": "M-1 Dependent (M-2)", "category": "student",
+      "purpose": "Spouse or child of M-1 student", "baseFee": 185,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/study/student-visa.html"
+    },
+    "J1": {
+      "code": "J1", "name": "Exchange Visitor (J-1)", "category": "exchange",
+      "purpose": "Exchange programs (research, teaching, training, au pair, intern)", "baseFee": 185,
+      "sevisFee": 220, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": ["DS-2019"], "dependentVisa": "J2",
+      "entryRestriction": null, "twoYearRule": true,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/study/exchange.html"
+    },
+    "J2": {
+      "code": "J2", "name": "J-1 Dependent (J-2)", "category": "exchange",
+      "purpose": "Spouse or child of J-1 exchange visitor", "baseFee": 185,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": ["DS-2019"], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/study/exchange.html"
+    },
+    "H1B": {
+      "code": "H1B", "name": "Specialty Occupation (H-1B)", "category": "work",
+      "purpose": "Specialty occupation requiring bachelor's degree or higher", "baseFee": 205,
+      "sevisFee": null, "petitionRequired": true, "petitionForm": "I-129",
+      "dolRequired": true, "requiredForms": ["I-797"], "dependentVisa": "H4",
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/employment/temporary-worker-visas.html"
+    },
+    "H1B1": {
+      "code": "H1B1", "name": "Chile/Singapore FTA (H-1B1)", "category": "work",
+      "purpose": "Specialty occupation for Chile/Singapore nationals", "baseFee": 205,
+      "sevisFee": null, "petitionRequired": true, "petitionForm": "I-129",
+      "dolRequired": true, "requiredForms": ["I-797"], "dependentVisa": "H4",
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/employment/temporary-worker-visas.html"
+    },
+    "H2A": {
+      "code": "H2A", "name": "Temporary Agricultural Worker (H-2A)", "category": "work",
+      "purpose": "Seasonal agricultural labor", "baseFee": 205,
+      "sevisFee": null, "petitionRequired": true, "petitionForm": "I-129",
+      "dolRequired": true, "requiredForms": ["I-797"], "dependentVisa": "H4",
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/employment/temporary-worker-visas.html"
+    },
+    "H2B": {
+      "code": "H2B", "name": "Temporary Non-Agricultural Worker (H-2B)", "category": "work",
+      "purpose": "Temporary non-agricultural work", "baseFee": 205,
+      "sevisFee": null, "petitionRequired": true, "petitionForm": "I-129",
+      "dolRequired": true, "requiredForms": ["I-797"], "dependentVisa": "H4",
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/employment/temporary-worker-visas.html"
+    },
+    "H3": {
+      "code": "H3", "name": "Trainee (H-3)", "category": "work",
+      "purpose": "Training programs not available in home country", "baseFee": 205,
+      "sevisFee": null, "petitionRequired": true, "petitionForm": "I-129",
+      "dolRequired": false, "requiredForms": ["I-797"], "dependentVisa": "H4",
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/employment/temporary-worker-visas.html"
+    },
+    "H4": {
+      "code": "H4", "name": "H Dependent (H-4)", "category": "work",
+      "purpose": "Spouse or child of H-1B/H-2/H-3 worker", "baseFee": 205,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/employment/temporary-worker-visas.html"
+    },
+    "L1A": {
+      "code": "L1A", "name": "Intracompany Transferee Manager (L-1A)", "category": "work",
+      "purpose": "Manager or executive transferring within same company", "baseFee": 205,
+      "sevisFee": null, "petitionRequired": true, "petitionForm": "I-129",
+      "dolRequired": false, "requiredForms": ["I-797"], "dependentVisa": "L2",
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/employment/temporary-worker-visas.html"
+    },
+    "L1B": {
+      "code": "L1B", "name": "Intracompany Transferee Specialized (L-1B)", "category": "work",
+      "purpose": "Employee with specialized knowledge transferring within same company", "baseFee": 205,
+      "sevisFee": null, "petitionRequired": true, "petitionForm": "I-129",
+      "dolRequired": false, "requiredForms": ["I-797"], "dependentVisa": "L2",
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/employment/temporary-worker-visas.html"
+    },
+    "L2": {
+      "code": "L2", "name": "L Dependent (L-2)", "category": "work",
+      "purpose": "Spouse or child of L-1 worker", "baseFee": 205,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/employment/temporary-worker-visas.html"
+    },
+    "O1A": {
+      "code": "O1A", "name": "Extraordinary Ability - Science/Business (O-1A)", "category": "work",
+      "purpose": "Extraordinary ability in sciences, education, business, or athletics", "baseFee": 205,
+      "sevisFee": null, "petitionRequired": true, "petitionForm": "I-129",
+      "dolRequired": false, "requiredForms": ["I-797"], "dependentVisa": "O3",
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/employment/temporary-worker-visas.html"
+    },
+    "O1B": {
+      "code": "O1B", "name": "Extraordinary Ability - Arts (O-1B)", "category": "work",
+      "purpose": "Extraordinary achievement in arts, motion pictures, or television", "baseFee": 205,
+      "sevisFee": null, "petitionRequired": true, "petitionForm": "I-129",
+      "dolRequired": false, "requiredForms": ["I-797"], "dependentVisa": "O3",
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/employment/temporary-worker-visas.html"
+    },
+    "O2": {
+      "code": "O2", "name": "O-1 Support Staff (O-2)", "category": "work",
+      "purpose": "Essential support personnel for O-1 visa holder", "baseFee": 205,
+      "sevisFee": null, "petitionRequired": true, "petitionForm": "I-129",
+      "dolRequired": false, "requiredForms": ["I-797"], "dependentVisa": "O3",
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/employment/temporary-worker-visas.html"
+    },
+    "O3": {
+      "code": "O3", "name": "O Dependent (O-3)", "category": "work",
+      "purpose": "Spouse or child of O-1/O-2 worker", "baseFee": 205,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/employment/temporary-worker-visas.html"
+    },
+    "P1A": {
+      "code": "P1A", "name": "Internationally Recognized Athlete (P-1A)", "category": "work",
+      "purpose": "Individual or team athlete competing at internationally recognized level", "baseFee": 205,
+      "sevisFee": null, "petitionRequired": true, "petitionForm": "I-129",
+      "dolRequired": false, "requiredForms": ["I-797"], "dependentVisa": "P4",
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/employment/temporary-worker-visas.html"
+    },
+    "P1B": {
+      "code": "P1B", "name": "Entertainment Group (P-1B)", "category": "work",
+      "purpose": "Member of internationally recognized entertainment group", "baseFee": 205,
+      "sevisFee": null, "petitionRequired": true, "petitionForm": "I-129",
+      "dolRequired": false, "requiredForms": ["I-797"], "dependentVisa": "P4",
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/employment/temporary-worker-visas.html"
+    },
+    "P2": {
+      "code": "P2", "name": "Reciprocal Exchange Artist (P-2)", "category": "work",
+      "purpose": "Artist or entertainer in reciprocal exchange program", "baseFee": 205,
+      "sevisFee": null, "petitionRequired": true, "petitionForm": "I-129",
+      "dolRequired": false, "requiredForms": ["I-797"], "dependentVisa": "P4",
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/employment/temporary-worker-visas.html"
+    },
+    "P3": {
+      "code": "P3", "name": "Culturally Unique Artist (P-3)", "category": "work",
+      "purpose": "Artist or entertainer performing culturally unique program", "baseFee": 205,
+      "sevisFee": null, "petitionRequired": true, "petitionForm": "I-129",
+      "dolRequired": false, "requiredForms": ["I-797"], "dependentVisa": "P4",
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/employment/temporary-worker-visas.html"
+    },
+    "P4": {
+      "code": "P4", "name": "P Dependent (P-4)", "category": "work",
+      "purpose": "Spouse or child of P-1/P-2/P-3 worker", "baseFee": 205,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/employment/temporary-worker-visas.html"
+    },
+    "Q1": {
+      "code": "Q1", "name": "Cultural Exchange (Q-1)", "category": "work",
+      "purpose": "International cultural exchange program", "baseFee": 205,
+      "sevisFee": null, "petitionRequired": true, "petitionForm": "I-129",
+      "dolRequired": false, "requiredForms": ["I-797"], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/employment/temporary-worker-visas.html"
+    },
+    "R1": {
+      "code": "R1", "name": "Religious Worker (R-1)", "category": "work",
+      "purpose": "Religious worker in religious occupation or vocation", "baseFee": 205,
+      "sevisFee": null, "petitionRequired": true, "petitionForm": "I-129",
+      "dolRequired": false, "requiredForms": ["I-797"], "dependentVisa": "R2",
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/employment/temporary-worker-visas.html"
+    },
+    "R2": {
+      "code": "R2", "name": "R Dependent (R-2)", "category": "work",
+      "purpose": "Spouse or child of R-1 religious worker", "baseFee": 205,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/employment/temporary-worker-visas.html"
+    },
+    "E1": {
+      "code": "E1", "name": "Treaty Trader (E-1)", "category": "treaty",
+      "purpose": "Substantial trade between US and treaty country", "baseFee": 315,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": "Only nationals of treaty countries", "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/employment/treaty-trader-investor-visa-e.html"
+    },
+    "E2": {
+      "code": "E2", "name": "Treaty Investor (E-2)", "category": "treaty",
+      "purpose": "Substantial investment in US enterprise", "baseFee": 315,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": "Only nationals of treaty countries", "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/employment/treaty-trader-investor-visa-e.html"
+    },
+    "E3": {
+      "code": "E3", "name": "Australian Specialty Worker (E-3)", "category": "treaty",
+      "purpose": "Specialty occupation for Australian nationals", "baseFee": 315,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": true, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": "Australian nationals only", "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/employment/treaty-trader-investor-visa-e.html"
+    },
+    "K1": {
+      "code": "K1", "name": "Fiancé(e) Visa (K-1)", "category": "family",
+      "purpose": "Fiancé(e) of US citizen", "baseFee": 265,
+      "sevisFee": null, "petitionRequired": true, "petitionForm": "I-129F",
+      "dolRequired": false, "requiredForms": ["I-797"], "dependentVisa": "K2",
+      "entryRestriction": "Must marry within 90 days of entry", "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/immigrate/family-immigration/nonimmigrant-visa-for-a-fiance-702.html"
+    },
+    "K2": {
+      "code": "K2", "name": "K-1 Child (K-2)", "category": "family",
+      "purpose": "Minor child of K-1 fiancé(e)", "baseFee": 265,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/immigrate/family-immigration/nonimmigrant-visa-for-a-fiance-702.html"
+    },
+    "K3": {
+      "code": "K3", "name": "Spouse of US Citizen (K-3)", "category": "family",
+      "purpose": "Spouse of US citizen awaiting immigrant visa", "baseFee": 265,
+      "sevisFee": null, "petitionRequired": true, "petitionForm": "I-130",
+      "dolRequired": false, "requiredForms": ["I-797"], "dependentVisa": "K4",
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/immigrate/family-immigration.html"
+    },
+    "K4": {
+      "code": "K4", "name": "K-3 Child (K-4)", "category": "family",
+      "purpose": "Minor child of K-3 spouse", "baseFee": 265,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/immigrate/family-immigration.html"
+    },
+    "C1": {
+      "code": "C1", "name": "Transit Visa (C-1)", "category": "other",
+      "purpose": "Transit through US to another country", "baseFee": 185,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/other-visa-categories/transit.html"
+    },
+    "C1D": {
+      "code": "C1D", "name": "Transit/Crewmember (C-1/D)", "category": "other",
+      "purpose": "Transit and crewmember combined", "baseFee": 185,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/other-visa-categories/crewmember-702.html"
+    },
+    "D": {
+      "code": "D", "name": "Crewmember (D)", "category": "other",
+      "purpose": "Crewmember on ship or aircraft", "baseFee": 185,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/other-visa-categories/crewmember-702.html"
+    },
+    "I": {
+      "code": "I", "name": "Media/Journalist (I)", "category": "other",
+      "purpose": "Foreign media representatives, journalists, film crews", "baseFee": 185,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/other-visa-categories/media-702.html"
+    },
+    "TN": {
+      "code": "TN", "name": "USMCA Professional (TN)", "category": "other",
+      "purpose": "Professional worker from Canada or Mexico under USMCA", "baseFee": 185,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": "TD",
+      "entryRestriction": "Canadian and Mexican nationals only", "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/employment/temporary-worker-visas.html"
+    },
+    "TD": {
+      "code": "TD", "name": "TN Dependent (TD)", "category": "other",
+      "purpose": "Spouse or child of TN worker", "baseFee": 185,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/employment/temporary-worker-visas.html"
+    },
+    "A1": {
+      "code": "A1", "name": "Ambassador/Diplomat (A-1)", "category": "diplomatic",
+      "purpose": "Head of state, ambassador, diplomat, or immediate family", "baseFee": 0,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/other-visa-categories/visa-for-diplomats.html"
+    },
+    "A2": {
+      "code": "A2", "name": "Foreign Government Official (A-2)", "category": "diplomatic",
+      "purpose": "Other foreign government official or employee", "baseFee": 0,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/other-visa-categories/visa-for-diplomats.html"
+    },
+    "A3": {
+      "code": "A3", "name": "A Attendant/Servant (A-3)", "category": "diplomatic",
+      "purpose": "Personal employee of A-1 or A-2 holder", "baseFee": 0,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/other-visa-categories/visa-for-diplomats.html"
+    },
+    "G1": {
+      "code": "G1", "name": "International Organization Rep (G-1)", "category": "diplomatic",
+      "purpose": "Designated international organization representative", "baseFee": 0,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/other-visa-categories/visa-for-diplomats.html"
+    },
+    "G2": {
+      "code": "G2", "name": "International Organization Rep (G-2)", "category": "diplomatic",
+      "purpose": "Other recognized government representative to intl org", "baseFee": 0,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/other-visa-categories/visa-for-diplomats.html"
+    },
+    "G3": {
+      "code": "G3", "name": "Non-member Government Rep (G-3)", "category": "diplomatic",
+      "purpose": "Representative of non-recognized or non-member government", "baseFee": 0,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/other-visa-categories/visa-for-diplomats.html"
+    },
+    "G4": {
+      "code": "G4", "name": "International Organization Employee (G-4)", "category": "diplomatic",
+      "purpose": "Officer or employee of international organization", "baseFee": 0,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/other-visa-categories/visa-for-diplomats.html"
+    },
+    "G5": {
+      "code": "G5", "name": "G Attendant/Servant (G-5)", "category": "diplomatic",
+      "purpose": "Personal employee of G-1 through G-4 holder", "baseFee": 0,
+      "sevisFee": null, "petitionRequired": false, "petitionForm": null,
+      "dolRequired": false, "requiredForms": [], "dependentVisa": null,
+      "entryRestriction": null, "twoYearRule": false,
+      "source": "https://travel.state.gov/content/travel/en/us-visas/other-visa-categories/visa-for-diplomats.html"
+    }
+  }
+}

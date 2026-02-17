@@ -1,0 +1,30 @@
+{
+  "_meta": {
+    "lastUpdated": "2026-02-17",
+    "source": "https://travel.state.gov/content/travel/en/us-visas/tourism-visit/visa-waiver-program.html",
+    "schemaVersion": "1.0.0"
+  },
+  "eligibleCountries": [
+    "AD","AU","AT","BE","BN","CL","HR","CZ","DK","EE",
+    "FI","FR","DE","GR","HU","IS","IE","IL","IT","JP",
+    "LV","LI","LT","LU","MT","MC","NL","NZ","NO","PL",
+    "PT","QA","SM","SG","SK","SI","KR","ES","SE","CH",
+    "TW","GB"
+  ],
+  "restrictions": {
+    "travelHistory": [
+      "Traveled to or been present in Cuba, Iran, Iraq, Libya, North Korea, Somalia, Sudan, Syria, or Yemen on or after March 1, 2011"
+    ],
+    "dualNationality": [
+      "National of or dual national with Cuba, Iran, Iraq, North Korea, Sudan, or Syria"
+    ],
+    "requirements": [
+      "Must have valid ESTA authorization",
+      "Machine-readable passport required",
+      "E-passport with electronic chip required for passports issued on or after October 1, 2006",
+      "Maximum stay: 90 days",
+      "Cannot extend stay or change status",
+      "Cannot be used for study or employment"
+    ]
+  }
+}

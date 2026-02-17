@@ -1,0 +1,17 @@
+{
+  "_meta": {
+    "lastUpdated": "2026-02-17",
+    "source": "https://www.cbp.gov/document/bulletins/six-month-club-update",
+    "schemaVersion": "1.0.0"
+  },
+  "description": "Countries whose citizens are exempt from the requirement that their passport be valid for six months beyond the period of intended stay. Citizens of these countries need only have a passport valid for their intended period of stay.",
+  "countries": [
+    "AL","AD","AT","AU","BE","BA","BR","BN","BG","CA",
+    "CL","CO","CR","HR","CY","CZ","DK","EC","EE","FI",
+    "FR","DE","GR","HN","HU","IS","IE","IL","IT","JP",
+    "KZ","KR","KW","LV","LI","LT","LU","MK","MT","MX",
+    "MC","ME","NL","NZ","NI","NO","OM","PA","PY","PE",
+    "PL","PT","QA","RO","SM","SN","RS","SK","SI","ES",
+    "SE","CH","TW","TH","TN","TR","GB","UY","VA"
+  ]
+}
