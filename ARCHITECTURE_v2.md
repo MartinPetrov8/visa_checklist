@@ -1,8 +1,9 @@
 # Visa Document Validator — Architecture Design v2
 
-**Status:** FINAL  
+**Status:** APPROVED  
 **Version:** 2.0 (updated 2026-02-17)  
-**Owner:** Cookie 🍪
+**Owner:** Cookie 🍪  
+**Reviewed by:** Cookie (Opus), Kimi K2.5, Claude Sonnet 4.5
 
 ---
 
@@ -29,6 +30,7 @@
 | Apollo/Strapi | GraphQL backend |
 | Stripe | 18.x |
 | @react-pdf/renderer | 4.3 |
+| Flights | Duffel API (migrating from Amadeus) |
 | Hosting | Vercel |
 
 ---
@@ -39,7 +41,7 @@
 ```
 src/lib/visa-validator/
 ├── index.ts                    # Public API exports
-├── types.ts                    # TypeScript interfaces
+├── types.ts                    # TypeScript interfaces + branded types
 ├── schemas.ts                  # Zod validation schemas
 ├── validator.ts                # Core logic
 ├── utils/
@@ -52,40 +54,32 @@ src/lib/visa-validator/
 │   │   ├── countries.json      # ISO 3166-1 (~200 countries)
 │   │   └── photo_specs.json    # Photo requirements (varies by destination)
 │   │
-│   ├── US/
-│   │   ├── visa_types.json     # All ~40 US visa types
-│   │   ├── visa_waiver.json    # VWP countries + restrictions
-│   │   ├── six_month_club.json # Passport validity exemptions
-│   │   ├── reciprocity.json    # ALL countries × ALL visa types (single flat file)
-│   │   └── requirements/       # Document checklists per visa type
-│   │       ├── B1B2.json
-│   │       ├── F1.json
-│   │       └── ... (~40 files)
-│   │
-│   ├── UK/                     # Future
-│   │   ├── visa_types.json
-│   │   ├── reciprocity.json
-│   │   └── requirements/
-│   │
-│   ├── EU/                     # Future (Schengen)
-│   │   └── ...
-│   │
-│   ├── CA/                     # Future
-│   │   └── ...
-│   │
-│   └── AU/                     # Future
-│       └── ...
+│   └── US/
+│       ├── visa_types.json     # All ~40 US visa types
+│       ├── visa_waiver.json    # VWP countries + restrictions
+│       ├── six_month_club.json # Passport validity exemptions
+│       ├── reciprocity.json    # ALL countries × ALL visa types (single flat file)
+│       └── requirements/       # Document checklists per visa type
+│           ├── B1B2.json
+│           ├── F1.json
+│           └── ... (~40 files)
 │
 └── __tests__/
-    └── validator.test.ts
+    ├── validator.test.ts
+    └── data-integrity.test.ts  # Validates JSON data consistency
 ```
+
+Future destinations add: `data/UK/`, `data/EU/`, `data/CA/`, `data/AU/`
 
 ### Reciprocity: Single Flat File (per destination)
 ```json
-// data/US/reciprocity.json
 {
-  "lastUpdated": "2026-02-17",
-  "source": "travel.state.gov",
+  "_meta": {
+    "scraped_at": "2026-02-17T08:00:00Z",
+    "source": "https://travel.state.gov/...",
+    "schema_version": "1.0.0",
+    "hash": "abc123..."
+  },
   "data": {
     "IN": {
       "B1B2": { "fee": 0, "validityMonths": 120, "entries": "M" },
@@ -95,79 +89,46 @@ src/lib/visa-validator/
     "CN": {
       "B1B2": { "fee": 185, "validityMonths": 120, "entries": "M" },
       "F1": { "fee": 0, "validityMonths": 60, "entries": "M" }
-    },
-    "BG": {
-      "B1B2": { "fee": 0, "validityMonths": 120, "entries": "M" }
     }
   }
 }
 ```
 
-**Why flat:** One file instead of 200. Faster lookups. Scales to multiple destinations without file explosion.
-
 ---
 
 ## 4. MODULE API
 
-### Core Function (destination-aware)
+### Branded Types
 ```typescript
-type Destination = 'US' | 'UK' | 'EU' | 'CA' | 'AU';
-
-interface VisaQuery {
-  nationality: string;      // ISO 3166-1 alpha-2
-  visaType: string;          // e.g., "B1B2", "F1"
-  destination: Destination;  // defaults to "US" for MVP
-}
-
-interface VisaRequirements {
-  query: VisaQuery;
-  visaWaiverEligible: boolean;
-  documents: {
-    required: Document[];
-    supporting: Document[];
-  };
-  fees: {
-    base: number;
-    reciprocity: number;
-    sevis: number | null;
-    total: number;
-  };
-  validity: {
-    months: number;
-    entries: '1' | '2' | 'M';
-  };
-  photoRequirements: PhotoSpecs;
-  sixMonthClubExempt: boolean;
-  dependentVisa: string | null;
-  petitionRequired: boolean;
-  commonMistakes: string[];
-  interviewTips: string[];
-  sources: string[];
-  disclaimer: string;
-  lastUpdated: string;
-}
+type Brand<K, T> = K & { __brand: T };
+export type CountryCode = Brand<string, 'CountryCode'>;
+export type VisaTypeCode = Brand<string, 'VisaTypeCode'>;
+export type Destination = 'US' | 'UK' | 'EU' | 'CA' | 'AU';
 ```
 
-### Result Type Pattern
+### Core Function
 ```typescript
+interface VisaQuery {
+  nationality: CountryCode;
+  visaType: VisaTypeCode;
+  destination: Destination;  // REQUIRED — no default
+}
+
 type VisaResult<T> =
   | { ok: true; value: T }
   | { ok: false; error: { type: 'VALIDATION' | 'NOT_FOUND' | 'UNSUPPORTED'; message: string } };
 
 function getVisaRequirements(query: VisaQuery): VisaResult<VisaRequirements>;
-function isVisaWaiverEligible(nationality: string, destination?: Destination): boolean;
-function getDocumentChecklist(visaType: string, destination?: Destination): VisaResult<DocumentChecklist>;
-function getFees(nationality: string, visaType: string, destination?: Destination): VisaResult<FeeBreakdown>;
 ```
 
-### Zod Schemas
+### Zod Schemas (shared with host app forms)
 ```typescript
 import { z } from 'zod';
 
 export const VisaQuerySchema = z.object({
   nationality: z.string().length(2).toUpperCase(),
   visaType: z.string().min(1).max(10),
-  destination: z.enum(['US', 'UK', 'EU', 'CA', 'AU']).default('US'),
+  destination: z.enum(['US', 'UK', 'EU', 'CA', 'AU']),  // Required
 });
 
 export type VisaQueryInput = z.infer<typeof VisaQuerySchema>;
@@ -175,14 +136,46 @@ export type VisaQueryInput = z.infer<typeof VisaQuerySchema>;
 
 ---
 
-## 5. INTEGRATION
+## 5. BUNDLE STRATEGY
+
+### Dynamic Import (approved by review panel)
+```typescript
+// ❌ DON'T: Static import on page load
+import { getVisaRequirements } from '@/lib/visa-validator';
+
+// ✅ DO: Load on-demand when user interacts
+const handleValidatorOpen = async () => {
+  const { getVisaRequirements } = await import('@/lib/visa-validator');
+  const result = getVisaRequirements(query);
+};
+```
+
+**Meta files** (countries, visa_types, VWP list) = static import (~50KB, needed for dropdowns)  
+**Reciprocity data** (~500KB) = dynamic import on query
+
+### Estimated Sizes
+| File | Raw | Gzipped | Load Strategy |
+|------|-----|---------|---------------|
+| countries.json | ~10KB | ~3KB | Static (dropdowns) |
+| visa_types.json | ~15KB | ~5KB | Static (dropdowns) |
+| visa_waiver.json | ~2KB | ~1KB | Static |
+| six_month_club.json | ~1KB | ~0.5KB | Static |
+| reciprocity.json | ~500KB | ~100KB | **Dynamic** |
+| requirements/ (all) | ~200KB | ~50KB | **Dynamic** |
+| **Initial bundle** | **~28KB** | **~10KB** | |
+| **On-demand** | **~700KB** | **~150KB** | |
+
+---
+
+## 6. INTEGRATION
 
 ```typescript
 // In dummyvisaticket checkout:
-import { getVisaRequirements, VisaQuerySchema } from '@/lib/visa-validator';
+import { VisaQuerySchema } from '@/lib/visa-validator/schemas';
 
-const handleCheck = (nationality: string, visaType: string) => {
+const handleCheck = async (nationality: string, visaType: string) => {
   const query = VisaQuerySchema.parse({ nationality, visaType, destination: 'US' });
+  const { getVisaRequirements } = await import('@/lib/visa-validator');
   const result = getVisaRequirements(query);
   
   if (!result.ok) {
@@ -196,72 +189,58 @@ const handleCheck = (nationality: string, visaType: string) => {
 
 ---
 
-## 6. DATA PIPELINE
+## 7. DATA PIPELINE
 
 ### Scraping (dev-only, Python + BeautifulSoup)
-```
-travel.state.gov
-    │
-    ▼
-scrape_reciprocity.py (with stealth: delays, UA rotation)
-    │
-    ▼
-Raw HTML → parse tables → validate
-    │
-    ▼
-data/US/reciprocity.json (single flat file)
-```
+- Stealth: delays, UA rotation, respect robots.txt
+- **Schema validation** on every scrape (Zod schemas validate output before writing)
+- **Hash-based change detection** per country
+- **Metadata** in every JSON file (scraped_at, source, hash)
 
-### Change Detection (hash-based)
+### Scraper Validation
 ```python
-import hashlib, json
+# After scraping, validate against schema
+def validate_scraped_data(data: dict) -> bool:
+    for country_code, visas in data.items():
+        assert len(country_code) == 2
+        for visa_code, info in visas.items():
+            assert isinstance(info['fee'], int) and info['fee'] >= 0
+            assert isinstance(info['validityMonths'], int) and info['validityMonths'] > 0
+            assert info['entries'] in ['1', '2', 'M']
+    return True
+```
 
-def check_for_changes(country_code: str, new_data: dict) -> bool:
-    current = load_existing_reciprocity()
-    old_hash = hashlib.sha256(json.dumps(current.get(country_code, {}), sort_keys=True).encode()).hexdigest()
-    new_hash = hashlib.sha256(json.dumps(new_data, sort_keys=True).encode()).hexdigest()
-    return old_hash != new_hash
+### Data Integrity Tests
+```typescript
+// __tests__/data-integrity.test.ts
+describe('Visa Data Integrity', () => {
+  it('all reciprocity countries exist in countries.json', () => { ... });
+  it('all visa types have requirements files', () => { ... });
+  it('all fees are non-negative integers', () => { ... });
+  it('all entries are 1, 2, or M', () => { ... });
+});
 ```
 
 ### Update Strategy
-- Weekly cron scrapes travel.state.gov
-- Hash comparison per country
-- Changes detected → alert for manual review
-- No auto-deploy of data changes
+- Weekly cron checks travel.state.gov
+- Hash comparison → only flag changes
+- Human review before merge
+- CI validates all JSON on every PR
 
 ---
 
-## 7. TECH STACK
+## 8. TECH STACK
 
 | Component | Technology |
 |-----------|------------|
 | Module | TypeScript (strict) |
 | Validation | Zod |
-| Data | Static JSON (build-time imports) |
+| Types | Branded types (CountryCode, VisaTypeCode) |
+| Error handling | Discriminated union Result type |
+| Data | Static JSON (dynamic import) |
 | Scraper | Python + BeautifulSoup |
-| Tests | Vitest |
+| Tests | Vitest + data integrity suite |
 | Hosting | Vercel (with host app) |
-
----
-
-## 8. BUNDLE STRATEGY
-
-**MVP approach:** Static imports. All JSON bundled at build time.
-
-**Estimated sizes:**
-| File | Raw | Gzipped |
-|------|-----|---------|
-| countries.json | ~10KB | ~3KB |
-| visa_types.json | ~15KB | ~5KB |
-| reciprocity.json | ~500KB | ~100KB |
-| requirements/ (all) | ~200KB | ~50KB |
-| meta files | ~5KB | ~2KB |
-| **Total** | **~730KB** | **~160KB** |
-
-**Optimization (if needed later):**
-- Dynamic import reciprocity.json only when user selects nationality
-- Move to API route with edge caching
-- Not needed for MVP — 160KB gzipped is acceptable for a checkout page
 
 ---
 
@@ -270,11 +249,11 @@ def check_for_changes(country_code: str, new_data: dict) -> bool:
 | Step | Task | Est. |
 |------|------|------|
 | 1 | Create meta data files (countries, visa_types, VWP, 6-month club, photo specs) | 1h |
-| 2 | Build reciprocity scraper (Python) | 1h |
+| 2 | Build reciprocity scraper (Python + validation) | 1.5h |
 | 3 | Run scraper → generate reciprocity.json | 30-60min |
 | 4 | Write requirements JSONs (all ~40 visa types) | 2-3h |
-| 5 | Build TypeScript module (validator + types + schemas) | 2h |
-| 6 | Tests + validation | 1h |
+| 5 | Build TypeScript module (validator + types + schemas + branded types) | 2h |
+| 6 | Data integrity tests | 30min |
 | 7 | Integration docs | 30min |
 | **Total** | | **~8-9h** |
 
@@ -289,38 +268,40 @@ def check_for_changes(country_code: str, new_data: dict) -> bool:
 | Canada | canada.ca/immigration | Medium |
 | Australia | immi.homeaffairs.gov.au | Medium |
 
-Each destination = new data folder + scraper. Module API stays the same (`destination` parameter).
+Each destination = new `data/{DEST}/` folder + scraper. Module API unchanged.
 
 ---
 
-## 11. APPROVED ✅
+## 11. REVIEW PROTOCOL
 
-- [x] Destination-agnostic API (future-proofed)
-- [x] Flat reciprocity file (not 200 separate files)
+**Mandatory for every design phase:**
+
+1. Cookie designs the codebase/approach
+2. Review panel: **Cookie** (Opus) + **Kimi K2.5** + **Claude Sonnet 4.5**
+3. All 3 must agree before proceeding
+4. Disagreements → escalate to Martin
+
+---
+
+## 12. APPROVED ✅
+
+**Review panel consensus (2026-02-17):**
+- [x] Flat reciprocity file
+- [x] Dynamic import for heavy data
+- [x] Destination parameter required (no default)
+- [x] Branded types for CountryCode/VisaTypeCode
+- [x] Schema validation in scraper
+- [x] Metadata in JSON files
+- [x] Data integrity tests
 - [x] Result type error handling
-- [x] Zod validation
-- [x] Hash-based change detection
-- [x] TypeScript strict mode
-- [x] Compatible with Next.js 15 + Vercel
+
+**Rejected for MVP (may add later):**
+- Processing times, 214(b) risk indicators, PP 10043
+- Playwright scraper fallback
+- neverthrow library
 
 **Next step:** Implementation
 
 ---
 
-*Architecture v2 by Cookie 🍪 | 2026-02-17*
-
----
-
-## 12. REVIEW PROTOCOL
-
-**Mandatory for every design phase:**
-
-1. Cookie designs the codebase/approach
-2. Spawn review panel:
-   - **Cookie** (Opus) — architecture lead
-   - **Kimi K2.5** — reviewer #1
-   - **Claude Sonnet 4.5** — reviewer #2
-3. All 3 must agree before proceeding to implementation
-4. Disagreements → escalate to Martin for final call
-
-**No implementation without unanimous agreement.**
+*Architecture v2 by Cookie 🍪 | Reviewed: Kimi K2.5, Sonnet 4.5 | 2026-02-17*
